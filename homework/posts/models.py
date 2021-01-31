@@ -1,14 +1,12 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from users.models import User
 
 
 class Group(models.Model):
     def __str__(self):
         return f"Сообщество {self.title}"
-    title = models.TextField()
-    slug = models.TextField()
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
     description = models.TextField(default="У этого сообщества нет описания", blank=True)
 
 

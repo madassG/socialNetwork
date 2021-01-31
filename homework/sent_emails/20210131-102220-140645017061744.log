@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: pizda@a.ru
+Date: Sun, 31 Jan 2021 10:22:20 -0000
+Message-ID: <161208854011.67809.18353938044002236120@genuis>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/auth/reset/NQ/ahc4t8-9b0ead7a9f2e48e121d41ed13950fbb1/
+
+Your username, in case you’ve forgotten: dasdasd
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
