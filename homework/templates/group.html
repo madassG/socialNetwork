@@ -1,12 +1,15 @@
 {% extends "base.html" %}
-{% block title %}Записи сообщества Лeв Толстой {% endblock %}
+{% block title %}Записи сообщества {{group.title}}{% endblock %}
 {% block header %}{{group.title}}{% endblock %}
 {% block content %}
 <p>{{group.description}}</p>
-  {%for post in posts%}
+
+{%for post in page%}
   <h3>Автор: {{post.author.get_full_name}}, дата публикации: {{post.pub_date|date:"d M Y"}}</h3>
-    <p>{{post.text}}</p>
-    <hr>
-  {%endfor%}
-    
+  <p>{{post.text}}</p>
+  <hr>
+{%endfor%}
+
+{% include "paginator.html"%}
+
 {%endblock%}

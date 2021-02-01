@@ -20,10 +20,11 @@ from posts import views
 
 urlpatterns = [
     path("auth/", include("users.urls")),
+    path("about/", include("about.urls", namespace='about')),
     path("auth/", include("django.contrib.auth.urls")),
-    path('', views.index, name="index"),
     path('admin/', admin.site.urls),
     path('group/<slug>/', views.group_posts, name="group_posts"),
-    path('new/', views.new_post, name="new_post")
+    path('new/', views.new_post, name="new_post"),
+    path('', include("posts.urls")),
 ]
 

@@ -1,11 +1,8 @@
-from django import forms
+from django.forms import ModelForm
 from .models import Post
 
 
-class PostForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super(PostForm, self).__init__(*args, **kwargs)
-
+class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ('text', 'group')
+        fields = ['text', 'group']

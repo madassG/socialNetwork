@@ -173,7 +173,6 @@ class TestGroupView:
         assert search_refind(r'{%\s*endfor\s*%}', html_template), \
             'Отредактируйте HTML-шаблон, не найден тег закрытия цикла'
 
-
         assert re.search(
             r'<\s*h1\s*>\s*' + group.title + r'\s*<\s*\/h1\s*>',
             html
