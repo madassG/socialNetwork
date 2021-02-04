@@ -1,7 +1,9 @@
-from django.test import TestCase, Client
-from users.models import User
-from ..models import Post, Group
+from django.test import Client, TestCase
 from django.urls import reverse
+
+from users.models import User
+
+from ..models import Group, Post
 
 
 class PostPagesTests(TestCase):
@@ -9,8 +11,8 @@ class PostPagesTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.group = Group.objects.create(
-            title="Заголовок",
-            slug="test-group",
+            title='Заголовок',
+            slug='test-group',
         )
 
     def setUp(self):
@@ -41,18 +43,15 @@ class PostPagesTests(TestCase):
         response = self.authorized_client.get(reverse('new_post'))
         self.assertTemplateUsed(response, 'new_post.html')
 
-    # def test_urls_uses_correct_template(self):
-    #     """Проверка соответсия шаблонов и URL-адресов"""
-    #     templates_url_names = {
-    #         'index.html': ['/', ''],
-    #         'new_post.html': '/new/',
-    #         'group.html': '/group/test-group/',
-    #         'profile.html': '/username/',
-    #         'post.html': '/username/1/',
-    #         'post_edit.html': '/username/1/edit',
-    #     }
-    #
-    #     for template, reverse_name in templates_url_names.items():
-    #         with self.subTest():
-    #             response = self.authorized_client.get(reverse_name)
-    #             self.assertTemplateUsed(response, template)
+    def test_post_edit_view_correct_template(self):
+        """URL-адрес использует шаблон edit_post.html"""
+        response = self.authorized_client.get(reverse('edit_post', kwargs={
+            'username': self.user,
+            'post_id': self.post.id
+        }))
+        self.assertTemplateUsed(response, 'post_edit.html')
+
+    def test_follow_view_correct_template(self):
+        """URL-адрес использует шаблон follow.html"""
+        response = self.authorized_client.get(reverse('follow_index'))
+        self.assertTemplateUsed(response, 'follow.html')

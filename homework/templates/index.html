@@ -1,16 +1,17 @@
 {% extends "base.html" %}
-{% block title %}последние обновления{% endblock %}
+{% block title %}Последние обновления{% endblock %}
 {% block header %}Последние обновления на сайте{% endblock %}
 {% block content %}
+<div class="container">
+    {% include "menu.html" with index=True%}
+    {% load cache %}
 
-{% for post in page %}
-<h3>
-        Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date|date:"d M Y" }}
-</h3>
-<p>{{ post.text|linebreaksbr }}</p>
-<hr>
-{% endfor %}
+    {% cache 20 posts%}
+    {% for post in page %}
+        {% include "post_item.html" %}
+    {% endfor %}
+    {% endcache %}
 
-{% include "paginator.html"%}
-
+    {% include "paginator.html"%}
+</div>
 {% endblock %}

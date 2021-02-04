@@ -1,5 +1,7 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
+
 from users.models import User
+
 
 class StaticURLTests(TestCase):
     @classmethod

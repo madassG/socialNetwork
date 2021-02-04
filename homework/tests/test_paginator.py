@@ -1,5 +1,6 @@
 import pytest
-from django.core.paginator import Page, Paginator
+
+from django.core.paginator import Paginator, Page
 
 
 class TestGroupPaginatorView:
@@ -13,6 +14,7 @@ class TestGroupPaginatorView:
         if response.status_code in (301, 302):
             response = client.get(f'/group/{post_with_group.group.slug}/')
         assert response.status_code != 404, 'Страница `/group/<slug>/` не найдена, проверьте этот адрес в *urls.py*'
+
 
         assert 'page' in response.context, \
             'Проверьте, что передали переменную `page` в контекст страницы `/group/<slug>/`'
