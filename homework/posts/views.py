@@ -9,7 +9,7 @@ from .forms import PostForm, CommentForm
 from .models import Group, Post, Follow
 
 
-# @cache_page(20)
+@cache_page(20)
 def index(request):
     latest = Post.objects.order_by('-pub_date')
 
@@ -108,13 +108,12 @@ def add_comment(request, username, post_id):
         form = CommentForm(request.POST)
 
         if form.is_valid():
+            user = get_object_or_404(User, username=username)
             comment = form.save(commit=False)
             comment.author = request.user
-            comment.post = get_object_or_404(Post, id=post_id)
+            comment.post = get_object_or_404(Post, id=post_id, author = user)
             comment.save()
             return redirect('post', username, post_id)
-
-        return redirect('post', username, post_id)
 
     return redirect('post', username, post_id)
 
@@ -128,11 +127,9 @@ def server_error(request):
 
 
 @login_required
-# @cache_page(20)
+@cache_page(20)
 def follow_index(request):
-    user = request.user
-    subscriptions = user.follower.values_list('author', flat=True)
-    posts = Post.objects.filter(author__in=set(subscriptions)).order_by('-pub_date')
+    posts = Post.objects.filter(author__following__user=request.user).order_by('-pub_date')
     paginator = Paginator(posts, 10)
 
     page_number = request.GET.get('page')
@@ -142,14 +139,10 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
-    user = request.user
     author = get_object_or_404(User, username=username)
-    existing = Follow.objects.filter(user=user, author=author)
-    if user != author and not existing:
-        follow = Follow()
-        follow.user = user
-        follow.author = author
-        follow.save()
+    if request.user != author:
+        Follow.objects.get_or_create(user=request.user, author=author)
+
     return redirect('profile', username)
 
 
@@ -157,7 +150,6 @@ def profile_follow(request, username):
 def profile_unfollow(request, username):
     user = request.user
     author = get_object_or_404(User, username=username)
-    existing = Follow.objects.filter(user=user, author=author)
-    if existing:
-        existing.delete()
+    Follow.objects.filter(user=user, author=author).delete()
+
     return redirect('profile', username)
